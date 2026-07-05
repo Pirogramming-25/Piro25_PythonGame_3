@@ -1,2 +1,73 @@
-# 담당 부원 : 김유겸
-# 기본 함수 구조는 README.md 참고해주세요.
+import random
+import time
+
+def play_game_of_death(players,user_name):
+    print("\n" + "="*40)
+    print("신난다~ 재미난다~ 더 게임 오브 데스! ")
+    print("="*40)
+    time.sleep(1)
+
+    leader = random.choice(players)
+    print(f"이번 판의 주도자는 [{leader}]입니다!")
+    
+    target_count = 0
+    if leader == "user_name":
+        while True:
+            try:
+                target_count = int(input("몇 번 만에 끝내시겠습니까? (최소 3 이상 입력): "))
+                if target_count >= 3:
+                    break
+                print("게임의 재미를 위해 3 이상의 숫자를 입력해주세요.")
+            except ValueError:
+                print("올바른 숫자를 입력해주세요.")
+    else:
+        target_count = random.randint(3, 15)
+        print(f"주도자 [{leader}]가 숫자를 고르고 있습니다...")
+        time.sleep(1.5)
+        print(f"[{leader}]가 외친 숫자: {target_count}")
+
+    print("\n" + "-"*40)
+    print("모두 지목할 대상을 고르고 있습니다...")
+    print("-"*40)
+    time.sleep(1.5)
+
+    pointing_dict = {}
+
+    for player in players:
+        if player == "user_name":
+            choices = [p for p in players if p != "user_name"]
+            print(f"현재 참여자: {choices}")
+            while True:
+                choice = input("누구를 지목하시겠습니까? (이름 정확히 입력): ").strip()
+                if choice in choices:
+                    pointing_dict["user_name"] = choice
+                    break
+                print("올바른 참가자의 이름을 입력해주세요.")
+        else:
+            choices = [p for p in players if p != player]
+            pointing_dict[player] = random.choice(choices)
+
+    print("\n[지목 결과 발표!]")
+    for pointer, pointee in pointing_dict.items():
+        print(f"  [{pointer}] -> [{pointee}]")
+    print("-"*40)
+    time.sleep(2)
+
+    print("\n신호가 시작됩니다! 3! 2! 1! ...")
+    current_person = leader
+    
+    for i in range(1, target_count + 1):
+        next_person = pointing_dict[current_person]
+        print(f" [{i}번] {current_person} -> {next_person}")
+        current_person = next_person
+        time.sleep(0.8)
+
+    loser = current_person
+    print("\n" + "="*40)
+    print(f"최종 패패자는 [{loser}] 입니다!")
+    print("="*40 + "\n")
+    
+    return loser
+
+
+
