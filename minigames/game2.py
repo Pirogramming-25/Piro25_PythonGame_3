@@ -92,13 +92,10 @@ def play_catch_mouse(players, user_name):
             print(f"-> {current_turn_player} 탈출 성공!")    
             turn_order.remove(current_turn_player)
             
+            if len(turn_order) == 1 :
+                loser = turn_order[0]
+                return loser
+            
             total_mice, turn_order = initialize_game(turn_order)
             current_caught = 0
             current_idx = 0
-
-    loser = turn_order[0]
-    return loser
-
-
-loser_result = play_catch_mouse(["은서", "하연", "연서", "예진"], "예진")
-print(f"\n📢 최종 패배자(원샷): {loser_result}")
