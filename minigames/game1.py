@@ -7,6 +7,15 @@ def play_game_of_death(players,user_name):
     print("="*40)
     time.sleep(1)
 
+    print("\n[게임 규칙 설명]")
+    print("  1. 주도자가 '숫자(최소 3 이상'를 외칩니다.")
+    print("  2. 모든 플레이어는 동시에 서로를 손가락으로 지목합니다.")
+    print("  3. 주도자부터 시작해 지목한 손가락을 따라 숫자를 세어나갑니다.")
+    print("  4. 주도자가 외친 숫자에 딱 걸린 사람이 당첨(벌주)됩니다!")
+    print("-" * 60)
+    
+    time.sleep(2.5)
+
     leader = random.choice(players)
     print(f"이번 판의 주도자는 [{leader}]입니다!")
     
