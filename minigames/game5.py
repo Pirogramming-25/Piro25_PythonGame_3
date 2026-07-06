@@ -3,7 +3,7 @@
 import random
 import time
 
-def play_game5(players):
+def play_game5(players, user_name):
     """
     베스킨라빈스 31 게임
     :param players: 현재 게임에 참여 중인 플레이어들의 이름 리스트
@@ -27,7 +27,7 @@ def play_game5(players):
         print(f"\n현재 숫자: {current_number}")
         print(f"👉 {current_player}님의 차례입니다.")
 
-        if turn_index == 0:
+        if current_player == user_name:
             count = get_user_count(current_number)
         else:
             count = get_computer_count(current_number)
