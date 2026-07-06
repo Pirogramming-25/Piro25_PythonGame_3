@@ -108,8 +108,8 @@ def choose_and_play_game(current_turn_player, player_status, user_name):
 
     # 1. 사용자(나)의 턴인 경우
     if current_turn_player == user_name: 
+        print_games()
         while True:
-            
             user_input = input("원하는 게임의 번호나 'exit'를 입력하세요: ").strip()
             
             if user_input.lower() == 'exit':
@@ -123,8 +123,13 @@ def choose_and_play_game(current_turn_player, player_status, user_name):
     
     # 2. 컴퓨터 NPC의 턴인 경우 (랜덤 선택)
     else:
+        print_games()
+        print(f" {current_turn_player}(이)가 게임을 신중하게 고르고 있습니다...")
+        time.sleep(1.5)
         selected_game = random.choice(AVAILABLE_GAMES)
         print(f"{current_turn_player}(이)가 '{selected_game['name']}'을(를) 선택했습니다!")
+
+        input(" 진행하려면 [Enter] 키를 누르세요...") 
 
     # 3. 선택된 게임 실행 
     print(f"\n{selected_game['name']} 시작합니다!")
@@ -142,8 +147,26 @@ def choose_and_play_game(current_turn_player, player_status, user_name):
 
 
 
-def update_and_print_status(loser, player_status):
+def print_player_table(player_status):
+    """참가자들의 실시간 상태 테이블만 출력하는 함수"""
+    print(f"{'이름':<10} | {'마신 잔 수 / 치사량':<15} | {'상태':<15}")
+    print("-" * 45)
+    
+    for name, cups in player_status.items():
+        current_cups, max_cups = cups[0], cups[1]
+        left_cups = max(0, max_cups - current_cups)
+        
+        gauge = "■" * current_cups + "□" * left_cups if (left_cups > 0) else "■" * max_cups
+        if current_cups >= max_cups:
+            status_text = "💀기절 직전!"
+        else:
+            status_text = f"정상 ({left_cups}잔 남음)"
+            
+        print(f"{name:<10} | {current_cups} /{max_cups} 잔 {gauge:<15} | {status_text}")
+    print("="*40 + "\n")
 
+
+def update_and_print_status(loser, player_status):
     if loser not in player_status:
         print(f"오류: {loser}는 참가자 명단에 없습니다.")
         return
@@ -151,23 +174,13 @@ def update_and_print_status(loser, player_status):
     # 1. 패배자 잔 수 업데이트
     player_status[loser][0] += 1
     
+    # 2. 상단 알림 출력
     print("\n" + "="*40)
     print(f"🍺 [게임 결과] {loser}(이)가 패배하여 술을 마십니다! (+1잔)")
     print("="*40)
     
-    # 2. 실시간 상태 테이블 출력    
-    print(f"{'이름':<10} | {'마신 잔 수 / 치사량':<15} | {'상태':<15}")
-    print("-" * 45)
-    
-    for name, cups in player_status.items():
-        current_cups, max_cups = cups[0], cups[1]
-        left_cups = max_cups - current_cups
-        
-        gauge = "■" * current_cups + "□" * left_cups if (left_cups > 0) else "■" * max_cups
-        status_text = f"정상 ({left_cups}잔 남음)"
-            
-        print(f"{name:<10} | {current_cups} /{max_cups} 잔 {gauge:<15} | {status_text}")
-    print("="*40 + "\n")
+    # 3. 분리한 테이블 출력 함수 호출
+    print_player_table(player_status)
 
 
 
@@ -223,17 +236,25 @@ def main():
     players_list = list(player_status.keys())
     current_turn_idx = players_list.index(player_name)
 
+    game_round = 0
+    total_players = len(players_list)
+    
+    print_player_table(player_status)
+
     print("\n멤버 세팅 완료! 잠시 후 술게임을 시작합니다...")
     time.sleep(1.5)  
-    print_games()
 
     while True:
-        current_turn_player = players_list[current_turn_idx]
+        if game_round < total_players:
+            current_turn_player = players_list[current_turn_idx]
+            print(f"\n [첫 라운드] 순서대로 게임을 선택합니다. ({game_round + 1}/{total_players}번째 순서)")
+            current_turn_idx = (current_turn_idx + 1) % len(players_list)
+        else:
+            current_turn_player = random.choice(players_list)
+            print("\n[랜덤 라운드] 이제부터 게임 선택자가 랜덤으로 결정됩니다!")
 
-        # 게임 선택 및 진행 (패배자 결정)
-        loser = choose_and_play_game(
-            current_turn_player, player_status, player_name
-        )
+        # 게임 선택 및 진행 
+        loser = choose_and_play_game(current_turn_player, player_status, player_name)
 
         # 사용자가 'exit'를 입력해 게임을 종료한 경우
         if loser == "EXIT_SIGNAL":
@@ -268,7 +289,7 @@ def main():
         print("\n다음 턴을 준비하고 있습니다...")
         time.sleep(1)
 
-        current_turn_idx = (current_turn_idx + 1) % len(players_list)
+        game_round += 1
 
 
 if __name__ == "__main__":
