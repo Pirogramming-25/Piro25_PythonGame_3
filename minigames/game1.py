@@ -1,7 +1,7 @@
 import random
 import time
 
-def play_game_of_death(players,user_name):
+def play_game_of_death(players, user_name):
     print("\n" + "="*40)
     print("신난다~ 재미난다~ 더 게임 오브 데스! ")
     print("="*40)

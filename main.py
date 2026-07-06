@@ -1,6 +1,7 @@
 # 전체 게임 흐름 제어 (입력, 대결 상대 설정, 메인 턴 루프, 상태 업데이트)
 # [개인이 임의로 수정하지 말 것!]
 import random
+from minigames import game1, game2, game3, game4, game5
 
 def print_intro():
     print("~" * 80)
@@ -51,7 +52,6 @@ def choose_alcohol_limit():
 
         print("잘못된 입력입니다. 1~5 중에서 선택해주세요.")
 
-<<<<<<< HEAD
 def invite_friends():
     list_candidate_names = ["은서", "하연", "연서", "예진", "헌도"]
 
@@ -85,12 +85,9 @@ def print_games():
     print("~~~~~~~~~~~~~~~~~~~~ 🍺 오늘의 Alcohol GAME 🍺 ~~~~~~~~~~~~~~~~~~~~~~")
     print("                     🍺 1. 더 게임 오브 데스\n                     🍺 2. 쥐를 잡자 게임\n                     🍺 3. 아파트 게임\n                     🍺 4. 지하철 게임\n                     🍺 5. 베스킨라빈스 31\n")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-   
-=======
-# 전체 게임 흐름 제어 (입력, 대결 상대 설정, 메인 턴 루프, 상태 업데이트)
-# [개인이 임의로 수정하지 말 것!]
-import random
-from minigames import game1, game2, game3, game4, game5
+
+
+
 
 AVAILABLE_GAMES = [
     {"name": "더 게임 오브 데스", "func": game1.play_game_of_death, "needs_user_name": True},
@@ -202,13 +199,12 @@ def check_game_over(player_status):
             print(f"\n 💀 기절 완료: [{name}](이)가 치사량({max_cups}잔)에 도달했습니다!")
             print("    인사불성이 되어 더 이상 게임을 진행할 수 없습니다.")
             print("    술자리를 종료합니다. 모두 고생하셨습니다!\n")
-            print("=" * 65 + "\n")
+            print("=" * 65 + "\n")  
             return True
             
     return False
 
 
->>>>>>> f677e2abd20197fcdea4c371bd82e8b79a7ca0c3
 def main():
     if not print_intro():
         return
