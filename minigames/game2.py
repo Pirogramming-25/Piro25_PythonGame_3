@@ -4,12 +4,11 @@ import random
 
 
 def check_initial(word, target_initial):
-    
     # 입력 글자가 2글자 아닌 경우
     if len(word) != 2:
         return False
         
-    # 한글 초성 리스트 (유니코드 순서)
+    # 한글 초성 리스트
     INITIAL_LIST = [
         'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 
         'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
