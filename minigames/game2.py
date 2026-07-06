@@ -100,5 +100,3 @@ def play_catch_mouse(players, user_name):
     return loser
 
 
-loser_result = play_catch_mouse(["은서", "하연", "연서", "예진"], "예진")
-print(f"\n📢 최종 패배자(원샷): {loser_result}")

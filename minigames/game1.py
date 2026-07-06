@@ -11,7 +11,7 @@ def play_game_of_death(players,user_name):
     print(f"이번 판의 주도자는 [{leader}]입니다!")
     
     target_count = 0
-    if leader == "user_name":
+    if leader == user_name:
         while True:
             try:
                 target_count = int(input("몇 번 만에 끝내시겠습니까? (최소 3 이상 입력): "))
@@ -34,13 +34,13 @@ def play_game_of_death(players,user_name):
     pointing_dict = {}
 
     for player in players:
-        if player == "user_name":
-            choices = [p for p in players if p != "user_name"]
+        if player == user_name:
+            choices = [p for p in players if p != user_name]
             print(f"현재 참여자: {choices}")
             while True:
                 choice = input("누구를 지목하시겠습니까? (이름 정확히 입력): ").strip()
                 if choice in choices:
-                    pointing_dict["user_name"] = choice
+                    pointing_dict[user_name] = choice
                     break
                 print("올바른 참가자의 이름을 입력해주세요.")
         else:
