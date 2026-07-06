@@ -91,7 +91,7 @@ def print_games():
 
 AVAILABLE_GAMES = [
     {"name": "더 게임 오브 데스", "func": game1.play_game_of_death, "needs_user_name": True},
-    {"name": "훈민정음", "func": game2.play_initial, "needs_user_name": True},
+    {"name": "쥐를 잡자", "func": game2.play_catch_mouse, "needs_user_name": True},
     {"name": "아파트 게임", "func": game3.play_apt, "needs_user_name": False},
     {"name": "지하철 게임", "func": game4.play_subway, "needs_user_name": False},
     {"name": "베스킨라빈스 31 게임", "func": game5.play_game5, "needs_user_name": False}
@@ -187,13 +187,13 @@ def check_game_over(player_status):
         if current_cups >= max_cups:
             print("\n" + "=" * 65)
             print("=" * 65)
-            print("""
-  ____    _    __  __ _____    ___  _   _ _____ ____  _ 
- / ___|  / \  |  \/  | ____|  / _ \| | | | ____|  _ \| |
-| |  _  / _ \ | |\/| |  _|   | | | | | | |  _| | |_) | |
-| |_| |/ ___ \| |  | | |___  | |_| | |_| | |___|  _ < |_|
- \____/_/   \_\_|  |_|_____|  \___/ \___/|_____|_| \_(_)
-            """)
+            print(r"""
+                    ____    _    __  __ _____    ___  _   _ _____ ____  _ 
+                    / ___|  / \  |  \/  | ____|  / _ \| | | | ____|  _ \| |
+                    | |  _  / _ \ | |\/| |  _|   | | | | | | |  _| | |_) | |
+                    | |_| |/ ___ \| |  | | |___  | |_| | |_| | |___|  _ < |_|
+                    \____/_/   \_\_|  |_|_____|  \___/ \___/|_____|_| \_(_)
+                """)
             print("=" * 65)
             print("=" * 65)
             print(f"\n 💀 기절 완료: [{name}](이)가 치사량({max_cups}잔)에 도달했습니다!")
@@ -203,6 +203,9 @@ def check_game_over(player_status):
             return True
             
     return False
+
+
+
 
 
 def main():
@@ -216,3 +219,42 @@ def main():
     print(f"{player_name}님 환영합니다!")
     print(f"{player_name}님의 치사량은 {alcohol_limit}잔입니다.")
     print("~" * 80)
+
+    # 1. 초대된 친구들(봇) 정보 가져오기
+    player_status = invite_friends()
+
+    # 2. 사용자의 정보를 player_status 딕셔너리에 추가하기
+    # 딕셔너리 구조: { "이름": [현재 마신 잔(0), 치사량] }
+    player_status[player_name] = [0, alcohol_limit]
+
+    # 플레이어 명단 생성 및 첫 번째 턴 플레이어 설정 (사용자부터 시작)
+    players_list = list(player_status.keys())
+    current_turn_idx = players_list.index(player_name)
+
+    print("\n멤버 세팅 완료! 술게임을 시작합니다. ")
+    print_games()
+
+    while True:
+        current_turn_player = players_list[current_turn_idx]
+
+        # 게임 선택 및 진행 (패배자 결정)
+        loser = choose_and_play_game(current_turn_player, player_status, player_name)
+
+        # 사용자가 'exit'를 입력해 게임을 종료한 경우
+        if loser == "EXIT_SIGNAL":
+            print("\n👋 게임을 중단하고 술자리를 나갑니다. 안녕히 가세요!")
+            break
+
+        # 패배자 상태 업데이트 및 전광판 출력
+        update_and_print_status(loser, player_status)
+
+        # 치사량 도달 여부 검사 (게임 오버 조건)
+        if check_game_over(player_status):
+            break
+
+        # 다음 턴으로 넘어가기 (순서대로 턴이 돌아감)
+        current_turn_idx = (current_turn_idx + 1) % len(players_list)
+
+
+if __name__ == "__main__":
+    main()
