@@ -92,7 +92,7 @@ AVAILABLE_GAMES = [
     {"name": "더 게임 오브 데스", "func": game1.play_game_of_death, "needs_user_name": True},
     {"name": "쥐를 잡자", "func": game2.play_catch_mouse, "needs_user_name": True},
     {"name": "아파트 게임", "func": game3.play_apt, "needs_user_name": False},
-    {"name": "지하철 게임", "func": game4.play_subway, "needs_user_name": False},
+    {"name": "지하철 게임", "func": game4.play_subway, "needs_user_name": False, "chooser_first": True},
     {"name": "베스킨라빈스 31 게임", "func": game5.play_game5, "needs_user_name": True}
 ]
 
@@ -128,6 +128,10 @@ def choose_and_play_game(current_turn_player, player_status, user_name):
 
     # 3. 선택된 게임 실행 
     print(f"\n{selected_game['name']} 시작합니다!")
+
+    if selected_game.get("chooser_first"):
+        start = players_list.index(current_turn_player)
+        players_list = players_list[start:] + players_list[:start]
     
     if selected_game["needs_user_name"]:
         loser = selected_game["func"](players_list, user_name)
