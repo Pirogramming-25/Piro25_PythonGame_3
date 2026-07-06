@@ -16,8 +16,13 @@ import time
 def play_apt(players):
 
 
-    print(" A P T 게임 시작!")
-
+    print("=== A P T 게임 시작!===")
+    print("==규칙==" \
+    """
+    -사람들이 손을 쌓아 아파트를 만든 뒤 사람 손 이하의 층수를 외친다
+    -맨 아래 손부터 하나씩 위로 올리면서 외친 숫자를 시작으로 역카운트한다.
+    -마지막으로 외친 층수에서 맨 위에 놓이는 손의 주인이 패배!
+    """)
     hands = []
     for name in players:
         hands.append(name)
