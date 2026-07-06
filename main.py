@@ -51,8 +51,6 @@ def choose_alcohol_limit():
 
         print("잘못된 입력입니다. 1~5 중에서 선택해주세요.")
 
-import random
-
 def invite_friends():
     list_candidate_names = ["은서", "하연", "연서", "예진", "헌도"]
 
@@ -70,7 +68,7 @@ def invite_friends():
 
     selected_bots = random.sample(list_candidate_names, num_invite)
     
-    # 구조: { "이름": [현재 마신 잔(0), 랜덤 치사량] }
+    # { "이름": [현재 마신 잔(0), 랜덤 치사량] }
     dic_bots_info = {}
     for bot in selected_bots:
         bot_limit = random.randint(2, 10)
@@ -78,6 +76,9 @@ def invite_friends():
         print(f"오늘 함께 취할 친구는 {bot}입니다! (치사량 : {bot_limit})")
 
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+    return dic_bots_info
+
 
 def main():
     if not print_intro():
