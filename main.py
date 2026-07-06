@@ -1,5 +1,7 @@
 # 전체 게임 흐름 제어 (입력, 대결 상대 설정, 메인 턴 루프, 상태 업데이트)
 # [개인이 임의로 수정하지 말 것!]
+import random
+
 def print_intro():
     print("~" * 80)
     print("🍺 PIRO Alcohol Game 🍺")
@@ -48,6 +50,34 @@ def choose_alcohol_limit():
             return alcohol_options[choice]
 
         print("잘못된 입력입니다. 1~5 중에서 선택해주세요.")
+
+import random
+
+def invite_friends():
+    list_candidate_names = ["은서", "하연", "연서", "예진", "헌도"]
+
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
+    while True:
+        try:
+            num_invite = int(input("함께 취할 친구들은 얼마나 필요하신가요?(최대 3명까지 초대할 수 있어요!) : "))
+            if 1 <= num_invite <= 3:
+                break
+            else:
+                print("❌ 최대 3명까지만 초대할 수 있습니다.")
+        except ValueError:
+            print("❌ 숫자로 입력해주세요.")
+
+    selected_bots = random.sample(list_candidate_names, num_invite)
+    
+    # 구조: { "이름": [현재 마신 잔(0), 랜덤 치사량] }
+    dic_bots_info = {}
+    for bot in selected_bots:
+        bot_limit = random.randint(2, 10)
+        dic_bots_info[bot] = [0, bot_limit]
+        print(f"오늘 함께 취할 친구는 {bot}입니다! (치사량 : {bot_limit})")
+
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 def main():
     if not print_intro():
