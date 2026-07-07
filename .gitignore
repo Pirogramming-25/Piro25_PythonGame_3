@@ -1,0 +1,22 @@
+# OS 임시 파일
+.DS_Store
+Thumbs.db
+
+# 에디터 및 IDE 설정 파일
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# 웹 프론트엔드 도구 및 백업 임시 파일
+.prepros*
+prepros.config
+*~
+
+# 로그 및 캐시
+*.log
+.eslintcache
+.stylelintcache
